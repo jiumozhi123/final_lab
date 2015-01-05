@@ -1,4 +1,4 @@
-从github上下载代码，然后把final_lab-master.zip解压到final_lab-master文件夹中，并copy到ubuntu系统某个地方
+从github上下载代码，然后把final_lab-master.zip“解压到当前文件夹”，并copy到ubuntu系统某个地方
 
 在文件夹final_lab-master的同级目录中建立文件夹Input和文件夹Output，这样我们就可以在同一个目录中看到3个文件夹了
 
