@@ -22,8 +22,8 @@
 #ifndef _SOCKET_WRAPER_H_
 #define _SOCKET_WRAPER_H_
 
-#define Inputpath "../Input/09.mp4"
-#define Outputpath "../Output/09.mp4"
+#define Inputpath "../Input/1G.img"
+#define Outputpath "../Output/1G.img"
 
 #include <sys/time.h>
 #include <sys/types.h>
