@@ -3,7 +3,7 @@
 #include<sys/types.h>		/* WNOHANG */
 #include<sys/wait.h>		/* waitpid */
 #include<string.h>			/* memset */
-
+#include<time.h>
 #include "common.h" 	/* socket layer wrapper */
 
 #define	true		1
@@ -21,6 +21,7 @@ int main()
 	int sin_size;
 	char buf[MAXDATASIZE];
 	int nread;
+        time_t t_start,t_end;
 	
 	if ((sockfd = Socket(AF_INET, SOCK_STREAM, 0)) == -1) 
 	{
@@ -74,20 +75,19 @@ int main()
         perror("fopen");
         return false;
     }
-    else
-    {
+        printf("begin timing......\n");
+        t_start=time(NULL);
         printf("recving......\n");
-    }
-
 	do{
 		nread=fread(buf,1,MAXDATASIZE,fp);
 		send(new_fd,buf,nread,0);
 	}while(nread>0);
-
 	fclose(fp);
         printf("receving succeed!\n");
+        printf("timing end!\n");
+        t_end=time(NULL);
+        printf("time of transmission:%.0fs\n",difftime(t_end,t_start));
 	close(new_fd);
 	close(sockfd);
-
 	return true;
 }

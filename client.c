@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 	printf("sending succeed!\n");
         printf("timing end!\n");
 	t_end=time(NULL);
-        printf("common time:%.0fs\n",difftime(t_end,t_start));
+        printf("time of transmission:%.0fs\n",difftime(t_end,t_start));
         close(sockfd);
 	return true;
 }
