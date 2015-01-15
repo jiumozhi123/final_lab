@@ -3,8 +3,8 @@
 #include<sys/types.h>		/* WNOHANG */
 #include<sys/wait.h>		/* waitpid */
 #include<string.h>			/* memset */
-#include "dbtime.h"
 #include "common.h" 	/* socket layer wrapper */
+#include<time.h>
 
 #define	true		1
 #define false		0
@@ -19,7 +19,8 @@ int main(int argc, char *argv[])
 	struct hostent *he; /* own message */
 	struct sockaddr_in their_addr; /* server address */
 	int nrecv;
-
+        time_t t_start,t_end;
+        t_start=time(NULL);
 	/*if (argc != 2) 
 	{
 		fprintf(stderr,"usage: client hostname\n");
@@ -45,9 +46,8 @@ int main(int argc, char *argv[])
 	their_addr.sin_family = AF_INET;
 	their_addr.sin_port = Htons(PORT); /* short, NBO */
 	their_addr.sin_addr = *((struct in_addr *)he->h_addr_list[0]);
-	memset(&(their_addr.sin_zero),0,8); 
+	memset(&(their_addr.sin_zero),0,8);
 
-	dbtime_startTest ("Connect & Recv");
         printf("begin timing......\n");
 	
 	if (Connect(sockfd, (struct sockaddr *)&their_addr, sizeof(struct sockaddr)) == -1) 
@@ -74,12 +74,9 @@ int main(int argc, char *argv[])
 	printf("sending succeed!\n");
 
 	close(sockfd);
-	dbtime_endAndShow ();
-	dbtime_startTest ("Sleep 5s");
-        /*sleep(5);*/
-	dbtime_endAndShow ();
-	dbtime_finalize ();
+	t_end=time(NULL);
         printf("timing end!\n");
+        printf("common time:%.0fs\n",difftime(t_end,t_start));
 	return true;
 
 }

@@ -1,36 +1,41 @@
 #
-# Makefile for Workspace
+# Makefile for final_lab
 #
 
-CC_PTHREAD_FLAGS			 = -lpthread
-CC_TIME_FLAGS				 = -lrt
-CC_FLAGS                     = -c 
-CC_OUTPUT_FLAGS				 = -o
-CC                           = gcc
-RM                           = rm
-RM_FLAGS                     = -f
+all: server.o client.o server client MD5.o MD5test.o md5 fclean.o fclean fcreate.o fcreate
 
-SERVER_TARGET = server
-CLIENT_TARGET = client
+server:server.o
+	gcc -o server server.o
 
-TARGETS	 =  $(SERVER_TARGET) $(CLIENT_TARGET)
+client:client.o
+	gcc -o client client.o
 
-COMMON_OBJS = 
-SERVER_OBJS = server.o $(COMMON_OBJS)
-CLIENT_OBJS = dbtime.o client.o $(COMMON_OBJS)
+md5:MD5.o MD5test.o
+	gcc -o md5 MD5.o MD5test.o
 
-OBJS     =  $(COMMON_OBJS) $(SERVER_OBJS) $(CLIENT_OBJS) 
+fcreate:fcreate.o
+	gcc -o fcreate fcreate.o
 
-all: $(OBJS) $(TARGETS)
+fclean:fclean.o
+	gcc -o fclean fclean.o
 
-$(SERVER_TARGET):$(SERVER_OBJS)
-	$(CC) $(CC_OUTPUT_FLAGS) $(SERVER_TARGET) $(SERVER_OBJS) $(CC_PTHREAD_FLAGS)
+server.o:server.c common.h
+	gcc -c server.c
 
-$(CLIENT_TARGET):$(CLIENT_OBJS)
-	$(CC) $(CC_OUTPUT_FLAGS) $(CLIENT_TARGET) $(CLIENT_OBJS) $(CC_PTHREAD_FLAGS) $(CC_TIME_FLAGS)
+client.o:client.c common.h
+	gcc -c client.c
 
-.c.o:
-	$(CC) $(CC_FLAGS) $<
+MD5.o:MD5.c MD5.h
+	gcc -c MD5.c
+
+MD5test.o:MD5test.c MD5.h
+	gcc -c MD5test.c
+
+fcreate.o:fcreate.c
+	gcc -c fcreate.c
+
+fclean.o:fclean.c
+	gcc -c fclean.c
 
 clean:
-	$(RM) $(RM_FLAGS)  $(OBJS) $(TARGETS) *.bak dbtime.time
+	rm -f server client server.o client.o md5 MD5.o MD5test.o fcreate fcreate.o fclean.o fclean
