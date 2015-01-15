@@ -20,14 +20,6 @@ int main(int argc, char *argv[])
 	struct sockaddr_in their_addr; /* server address */
 	int nrecv;
         time_t t_start,t_end;
-        t_start=time(NULL);
-	/*if (argc != 2) 
-	{
-		fprintf(stderr,"usage: client hostname\n");
-		exit(1);
-	}*/
-	
-	/* get the host info */
 	if ((he=Gethostbyname(argv[1])) == NULL) 
 	{
 		perror("gethostbyname");
@@ -47,8 +39,6 @@ int main(int argc, char *argv[])
 	their_addr.sin_port = Htons(PORT); /* short, NBO */
 	their_addr.sin_addr = *((struct in_addr *)he->h_addr_list[0]);
 	memset(&(their_addr.sin_zero),0,8);
-
-        printf("begin timing......\n");
 	
 	if (Connect(sockfd, (struct sockaddr *)&their_addr, sizeof(struct sockaddr)) == -1) 
 	{
@@ -65,6 +55,8 @@ int main(int argc, char *argv[])
         perror("fopen");
         return false;
     }
+        printf("begin timing......\n");
+        t_start=time(NULL);
         printf("sending......\n");
 	while((nrecv=recv(sockfd,buf,MAXDATASIZE,0))>0)
 	{
@@ -72,11 +64,9 @@ int main(int argc, char *argv[])
 	}
 	fclose(fp);
 	printf("sending succeed!\n");
-
-	close(sockfd);
-	t_end=time(NULL);
         printf("timing end!\n");
+	t_end=time(NULL);
         printf("common time:%.0fs\n",difftime(t_end,t_start));
+        close(sockfd);
 	return true;
-
 }
